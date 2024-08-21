@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiztacular</title>
+</head>
+<style>
+body {
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    background-image: url('https://wallpaperaccess.com/full/2384075.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+#quiz-container {
+    opacity: 95%;
+    background-color: rgba(27, 114, 121, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    height: 550px;
+    width: 8000px;
+    text-align: center;
+    font-size: 25px;
+}
+#question{
+    color:white;
+    font-weight: bolder;
+    font-size: 30px;
+    
+}
+h1 {
+    font-weight: bolder;
+    margin-top:50px;
+    margin-bottom: 20px;
+    color: #0cdbffb9;
+}
+
+#options {
+    margin-bottom: 20px;
+}
+
+button {
+    font-weight: bolder;
+    font-size: large;
+    margin-top: 50px;
+    margin-inline: 10px;
+    padding: 10px 30px;
+    background-color: #04a1bd;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #07b89a;
+}
+
+#feedback {
+    color: #fff;
+    margin-top: 20px;
+    font-weight: bold;
+}
+
+#score {
+    color: #fff;
+    margin-top: 20px;
+}
+
+</style>
+<body>
+
+    <div id="quiz-container">
+        <h1>Quiz</h1>
+        <div id="question-container">
+            <p id="question">Questions</p>
+            <div id="options">
+                
+            </div>
+        </div>
+        <button id="submit-btn">Submit</button>
+        <p id="feedback"></p>
+        <p id="score"></p>
+    </div>
+
+    
+</body>
+<script>
+const quizData = [
+    {
+        question: "What is the capital of INDIA?",
+        options: ["Delhi", "Mumbai", "Gujarat", "Bengaluru"],
+        correctAnswer: "Delhi"
+    },
+    {
+        question: "What is the largest country in the world by land area?",
+        options: ["Russia", "Canada", "China", "USA"],
+        correctAnswer: "Russia"
+    },
+    {
+        question: "What is the chemical symbol for gold?",
+        options: ["Au", "Ag", "Fe", "Cu"],
+        correctAnswer: "Au"
+    },
+    {
+        question: "What is the largest organ in the human body?",
+        options: ["Liver", "Skin", "Heart", "Lungs"],
+        correctAnswer: "Skin"
+    },
+    {
+        question: "Who won men's cricket T20 WC in 2024?",
+        options: ["Australia", "England", "India", "South Africa"],
+        correctAnswer: "India"
+    }
+];
+
+let currentQuestionIndex = 0;
+let score = 0;
+
+
+function loadQuestion() {
+    const questionContainer = document.getElementById('question');
+    const optionsContainer = document.getElementById('options');
+    const currentQuestion = quizData[currentQuestionIndex];
+    
+    questionContainer.textContent = currentQuestion.question;
+    optionsContainer.innerHTML = '';
+
+    currentQuestion.options.forEach(option => {
+        const button = document.createElement('button');
+        button.textContent = option;
+        button.addEventListener('click', () => selectOption(option));
+        optionsContainer.appendChild(button);
+    });
+}
+
+function selectOption(selectedOption) {
+    const feedback = document.getElementById('feedback');
+    const currentQuestion = quizData[currentQuestionIndex];
+
+    if (selectedOption === currentQuestion.correctAnswer) {
+        feedback.textContent = "Well done!";
+        score++;
+    } else {
+        feedback.textContent = "Oops! Wrong answer";
+    }
+
+    document.getElementById('score').textContent = `Score: ${score}/${quizData.length}`;
+
+    currentQuestionIndex++;
+
+    if (currentQuestionIndex < quizData.length) {
+        setTimeout(loadQuestion, 2000); 
+    } else {
+        setTimeout(showFinalScore, 1000);
+    }
+}
+
+
+function showFinalScore() {
+    const quizContainer = document.getElementById('quiz-container');
+    quizContainer.innerHTML = `<h1> Final score : ${score}/${quizData.length}</h1>`;
+    quizContainer.style.display = 'flex';
+    quizContainer.style.alignItems = 'center';
+    quizContainer.style.justifyContent = 'center';
+       
+}
+
+
+loadQuestion();
+</script>
+</html>
